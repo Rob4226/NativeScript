@@ -1,4 +1,33 @@
 ﻿/**
+ * //NOTE 12.2.2020 5:59AM Rob: Due to the prompt dialog text not being able to
+ * be seen on iOS when iOS system is in light mode, the only way I could find to
+ * fix it relatively easily was to comment 3 lines below (search for
+ * args.textColor). Then the white text became black on the light iOS and the
+ * text remained white on the dark iOS system theme. Also note, this is when
+ * using NativeScript dark them (class-"ns-dark") in both the above situations.
+ *
+ * This seems to work for me so I am forking the NativeScript repo, commenting
+ * out these 3 lines (search for args.textColor), then linking my package.json
+ * to the NativeScript fork at my github account. I will have to make sure I
+ * stay up to date though.
+ *
+ * Got the idea for this at GitHub issue:
+ * https://github.com/NativeScript/theme/issues/184
+ *
+ * > Upon further investigation...I looked at the file
+ * > node_modules/@nativescript/core/ui/dialogs/dialogs.ios.js
+ *
+ * > there are 4 lines like arg.textColor = arg.tintColor = color.ios;
+ *
+ * > if you comment those lines out - the colors are correct for both the
+ * > light/dark modes.
+ *
+ * > It doesn't use the color you may have sent in your style file - but the
+ * > system default - but the colors are reasonable and clearly visible.
+ */
+
+
+/**
  * iOS specific dialogs functions implementation.
  */
 import { Trace } from '../../trace';
@@ -169,7 +198,7 @@ export function prompt(...args): Promise<PromptResult> {
 
 				const color = getTextFieldColor();
 				if (color) {
-					arg.textColor = arg.tintColor = color.ios;
+					// arg.textColor = arg.tintColor = color.ios;
 				}
 			});
 
@@ -221,7 +250,7 @@ export function login(...args: any[]): Promise<LoginResult> {
 				arg.text = isString(options.userName) ? options.userName : '';
 
 				if (textFieldColor) {
-					arg.textColor = arg.tintColor = textFieldColor.ios;
+					// arg.textColor = arg.tintColor = textFieldColor.ios;
 				}
 			});
 
@@ -232,7 +261,7 @@ export function login(...args: any[]): Promise<LoginResult> {
 				arg.text = isString(options.password) ? options.password : '';
 
 				if (textFieldColor) {
-					arg.textColor = arg.tintColor = textFieldColor.ios;
+					// arg.textColor = arg.tintColor = textFieldColor.ios;
 				}
 			});
 			const userNameTextField: UITextField = alertController.textFields.firstObject;
